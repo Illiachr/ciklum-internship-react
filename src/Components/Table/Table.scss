@@ -1,0 +1,83 @@
+@import '../../scss/variables';
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: auto;
+  text-align: center;
+}
+
+.row-header {
+  display: grid;
+  font-weight: 700;
+  grid-template-columns: repeat(auto-fit, minmax(2rem, 1fr));
+  text-align: center;
+
+  div {
+    background: #e4e4e4;
+    border-top: $cell-border;
+    border-bottom: $cell-border;
+    border-right: $cell-border;
+    height: 3rem;
+    padding: .5rem;
+  }
+
+  :first-of-type {
+    border-left: $cell-border;
+  }
+}
+
+.row-meeting {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(2rem, 1fr));
+  text-align: center;
+
+  & div {
+    border-bottom: $cell-border;
+    border-right: $cell-border;
+    height: 3rem;
+    padding: .5rem;
+  }
+
+  & div:first-of-type {
+    border-left: $cell-border;
+  }
+}
+
+.meeting-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: .2s;
+
+  &:hover {
+    background-color: darken(#ebedee, 10%);
+  }
+
+  & .name {
+    margin: 0 auto;
+  }
+
+  & .cancel-event {
+    font-size: 18px;
+    font-weight: 700;
+    display: none;
+  }
+
+  &--bisy {
+    color: #ffffff;
+    background-color: $primary-color;
+  }
+
+  &--bisy:hover {
+    background-color: lighten($primary-color, 10%);
+  }
+
+  &.drag-hover {
+    background-color: $primary-color;
+  }
+}
+
+.time-cell {
+  font-weight: 700;
+}

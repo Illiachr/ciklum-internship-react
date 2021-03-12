@@ -1,10 +1,13 @@
 import React from "react";
-import "./App.css";
+import "./App.scss";
+import Controls from "./Components/Header/Controls";
+import Table from "./Components/Table/Table";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Calendar</h1>
+    <div className="App active">
+      <Controls />
+      <Table />
     </div>
   )
 };
