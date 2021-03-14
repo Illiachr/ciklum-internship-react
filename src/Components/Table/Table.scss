@@ -67,6 +67,9 @@
   &--bisy {
     color: #ffffff;
     background-color: $primary-color;
+    & .cancel-event {
+      display: block;
+    }
   }
 
   &--bisy:hover {
