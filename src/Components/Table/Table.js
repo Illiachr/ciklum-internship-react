@@ -3,8 +3,12 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useLogin } from '../Login/LoginContext';
 import { eventHours, workWeek } from '../../auxiliary';
 import './Table.scss';
+import DataLayer from '../../DataLayer/DataLayer';
+
+const dataLayer = new DataLayer();
 
 const Cell = (props) => {
   const {dayId, time, isSelected} = props;
@@ -13,11 +17,8 @@ const Cell = (props) => {
   const history = useHistory();
   const redirect = () => history.push('/newEvent');
   const onKeyPressHandler = () => {};
-  if (isSelected) { 
-
-    cellCls.push('meeting-cell--bisy');
-    console.log(cellCls);
-  };
+  if (isSelected) { cellCls.push('meeting-cell--bisy'); }
+  
   return (
   <div
       className={cellCls.join(' ')}
@@ -56,9 +57,11 @@ const Row = props => {
   
   const cells = workWeek.map(day => {
     let isCell = false;
-    if (day.id === '1' && time === 12) {
+    dataLayer.events.forEach(event => {
+      if (day.id === event.day && time === +event.time) {
       isCell = true;
     }
+    });
     return (
       <Cell key={day.id} dayId={day.id} time={time} isSelected={isCell}/>
     )
@@ -84,6 +87,8 @@ const Rows = () => {
 };
 
 export default function Table() {
+  const ctxLogin = useLogin();
+console.log(ctxLogin);
   return (
     <div className="calendar-grid">
       <TableHeader/>

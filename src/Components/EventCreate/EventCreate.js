@@ -20,7 +20,7 @@ export default function EventCreate() {
   const timeOptions = timeTable.map(time => <DayOption key={time.id} optValue={time.id} optText={time.value} />);
 
   const history = useHistory();
-  const redirect = () => history.push('/');
+  const redirect = () => history.push('/calendar');
   const onSubmitHandler = e => {
     e.preventDefault();
     const body = {}
