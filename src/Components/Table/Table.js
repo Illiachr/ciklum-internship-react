@@ -3,33 +3,28 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { useLogin } from '../Login/LoginContext';
-import { eventHours, workWeek } from '../../auxiliary';
+import { classes, eventHours, workWeek } from '../../auxiliary';
 import './Table.scss';
 import DataLayer from '../../DataLayer/DataLayer';
 
 const dataLayer = new DataLayer();
 
 const Cell = (props) => {
-  const {dayId, time, isSelected} = props;
-  const cellCls = ['cell', 'meeting-cell', 'js-modal-open'];
+  const {dayId, time, isBooked, eventName, eventId} = props;
+  const cellCls = ['cell', 'meeting-cell'];
   
-  const history = useHistory();
-  const redirect = () => history.push('/newEvent');
-  const onKeyPressHandler = () => {};
-  if (isSelected) { cellCls.push('meeting-cell--bisy'); }
+  if (isBooked) { 
+    cellCls.push('meeting-cell--bisy');
+  } else { cellCls.push('js-modal-open'); }
   
   return (
   <div
       className={cellCls.join(' ')}
-      onClick={redirect}
-      onKeyPress={onKeyPressHandler}
-      role="button"
-      tabIndex={0}
       data-day={dayId}
       data-time={time}
+      data-event-id={eventId}
       data-modal="modal-event">
-      <span className="name" data-type="event-name" />
+      <span className="name" data-type="event-name">{eventName}</span>
       <FontAwesomeIcon className="cancel-event" icon={faTimes}/>
   </div>
 )};
@@ -37,11 +32,15 @@ const Cell = (props) => {
 Cell.propTypes = {
   dayId: PropTypes.string.isRequired,
   time: PropTypes.number.isRequired,
-  isSelected: PropTypes.bool
+  isBooked: PropTypes.bool,
+  eventName: PropTypes.string,
+  eventId: PropTypes.string
 };
 
 Cell.defaultProps = {
-  isSelected: false
+  isBooked: false,
+  eventName: '',
+  eventId: ''
 };
 
 const TableHeader = () => { 
@@ -56,14 +55,18 @@ const Row = props => {
   const { time } = props;
   
   const cells = workWeek.map(day => {
-    let isCell = false;
+    let setBooked = false;
+    let name = '';
+    let id = '';
     dataLayer.events.forEach(event => {
       if (day.id === event.day && time === +event.time) {
-      isCell = true;
-    }
+        setBooked = true;
+        id = event.id;
+        name = event.name;
+      }
     });
     return (
-      <Cell key={day.id} dayId={day.id} time={time} isSelected={isCell}/>
+      <Cell key={day.id} dayId={day.id} time={time} isBooked={setBooked} eventName={name} eventId={id}/>
     )
   });
   return (
@@ -87,10 +90,35 @@ const Rows = () => {
 };
 
 export default function Table() {
-  const ctxLogin = useLogin();
-console.log(ctxLogin);
+  const history = useHistory();
+  const redirectNewEvent = () => history.push('/newEvent');
+
+  const clickHandler = e => {
+    const { target } = e;
+    if (target.closest(`.${classes.triggerOpen}`)) {
+      redirectNewEvent();
+    }
+
+    if (target.closest(`.${classes.confirm}`)) {
+      const eventSlot = target.closest(`.${classes.slotBooked}`);
+      if (eventSlot.dataset.eventId) {
+        const id = eventSlot.dataset.eventId;
+        dataLayer.removeData(dataLayer.eventsEntity, id);
+      //   await confirm('event-remove')
+      //     .then(() => this.dataLayer.removeData(this.dataLayer.eventsEntity, id));
+      // } else { console.warn('event ID undefined'); 
+      }
+    }
+  };
+
   return (
-    <div className="calendar-grid">
+    <div 
+      className="calendar-grid"
+      onClick={clickHandler}
+      onKeyPress={() => {}}
+      role="button"
+      tabIndex={0}
+    >
       <TableHeader/>
       <Rows/>      
     </div>

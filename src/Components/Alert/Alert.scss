@@ -1,0 +1,15 @@
+.Alert {
+  display: flex;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: rgb(243, 156, 156);
+  color: rgb(150, 33, 33);
+
+  &__text {
+    margin-left: .5rem;
+    margin-right: auto;
+  }
+}

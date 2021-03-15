@@ -1,0 +1,58 @@
+@import '../../scss/variables';
+
+.form__controls {
+  display: flex;
+  flex-direction: column;
+
+  & h1 {
+    margin-bottom: 1.5rem;
+  }
+
+  & label {
+    font-size: 16px;
+  }
+  & input, 
+    select {
+    min-width: 240px;
+    height: 40px;
+    margin-left: 1.5rem;
+    padding: 0.5rem 1rem;
+    font-family: 'Open Sans', sans-serif;
+    border: 1px solid #cccccc;
+    outline: none;
+    font-size: 16px;
+    line-height: 28px;
+    color: #354664;
+    border-color: #cccccc;
+    border-radius: 4px;
+    transition: $transition;
+  }
+
+  &-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    & label {
+      min-width: 100px;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    & input,
+    select {
+      width: 40%;
+      margin-right: auto;
+
+    }
+
+    & .btn {
+      min-width: 180px;
+      margin: 0 8px;
+      &:first-of-type {
+        margin-left: auto;
+      }
+    }
+  }
+}

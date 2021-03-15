@@ -6,13 +6,11 @@ import './Loader.scss';
 
 const dataLayer = new DataLayer();
 dataLayer.getData(dataLayer.usersEntity, true);
-console.log(dataLayer);
 
 export default function Loader() {
   const cls = ['lds-ring'];
   const history = useHistory();
   const emitter = new Emitter;
-  console.log(emitter);
   emitter.subscribe(`${dataLayer.usersEntity}:load`, () => {
     history.push('/calendar');
   });

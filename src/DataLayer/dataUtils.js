@@ -26,7 +26,6 @@ export async function request(entity, options = {}) {
     return await res.json();
   } catch (e) {
     emitter.emit('data:error', e);
-    console.warn('Error:', e.message);
     return `Error: ${e.message}`;
   }
 }

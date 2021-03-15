@@ -5,7 +5,6 @@ import { useLogin } from './LoginContext';
 import './Login.scss';
 
 const dataLayer = new DataLayer();
-console.log(dataLayer.users);
 
 const SelectOption = props => {
   const  { optValue , optText, optRole } = props;
@@ -33,7 +32,6 @@ export default function Login() {
     const userId = e.target.value;
     const userCurr = dataLayer.users.find(user => user.id === userId);
     ctx.userLogin(userCurr)
-    console.log(ctx);
   }
 
   return (

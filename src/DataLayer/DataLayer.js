@@ -73,7 +73,6 @@ export default class DataLayer {
       emitter: this.emitter,
     });
     if (err !== 204) {
-      console.warn(err);
       this.emitter.emit(`${entity}:remove`, false, err);
       return err;
     }
